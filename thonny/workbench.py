@@ -694,16 +694,16 @@ class Workbench(tk.Tk):
                 group=101,
             )
 
-        self.add_command(
-            "SupportUkraine",
-            "help",
-            tr("Support Ukraine"),
-            self._support_ukraine,
-            image="Ukraine",
-            caption=tr("Support"),
-            include_in_toolbar=True,
-            group=101,
-        )
+        # self.add_command(
+        #     "SupportUkraine",
+        #     "help",
+        #     tr("Support Ukraine"),
+        #     self._support_ukraine,
+        #     image="Ukraine",
+        #     caption=tr("Support"),
+        #     include_in_toolbar=True,
+        #     group=101,
+        # )
 
         if thonny.in_debug_mode():
             self.bind_all("<Control-Shift-Alt-D>", self._print_state_for_debugging, True)
@@ -794,14 +794,15 @@ class Workbench(tk.Tk):
         self._init_backend_switcher()
 
     def _init_support_ukraine_bar(self) -> None:
-        ukraine_label = create_action_label(
-            self._statusbar,
-            tr("Support Ukraine"),
-            self._support_ukraine,
-            # image=self.get_image("Ukraine"),
-            # compound="left"
-        )
-        ukraine_label.grid(row=1, column=1, sticky="wsn")
+        pass
+        # ukraine_label = create_action_label(
+        #     self._statusbar,
+        #     tr("Support Ukraine"),
+        #     self._support_ukraine,
+        #     # image=self.get_image("Ukraine"),
+        #     # compound="left"
+        # )
+        # ukraine_label.grid(row=1, column=1, sticky="wsn")
 
     def _support_ukraine(self, event=None) -> None:
         webbrowser.open("https://github.com/thonny/thonny/wiki/Support-Ukraine")
@@ -1096,7 +1097,7 @@ class Workbench(tk.Tk):
         if include_in_menu:
 
             def dispatch_from_menu():
-                # I don't like that Tk menu toggles checkbutton variable
+                # I don't like that Tk menu toggles checbutton variable
                 # automatically before calling the handler.
                 # So I revert the toggle before calling the actual handler.
                 # This way the handler doesn't have to worry whether it
@@ -2486,9 +2487,9 @@ class Workbench(tk.Tk):
     def update_title(self, event=None) -> None:
         editor = self.get_editor_notebook().get_current_editor()
         if self._is_portable:
-            title_text = "Portable Thonny"
+            title_text = "Thonny教学工具新概念编程专用版"
         else:
-            title_text = "Thonny"
+            title_text = "Thonny教学工具新概念编程专用版"
         if editor is not None:
             title_text += "  -  " + editor.get_long_description()
 
