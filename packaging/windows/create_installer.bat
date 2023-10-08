@@ -6,7 +6,7 @@ rmdir %BUILDDIR% /S /Q
 mkdir %BUILDDIR%
 
 @echo ............... COPYING PYTHON ...................................
-xcopy C:\Python310-64\* %BUILDDIR% /S /E /K>NUL
+xcopy C:\Users\Administrator\Desktop\TEMP\thonny\thonny-4.1.3-windows-portable\* %BUILDDIR% /S /E /K>NUL
 @echo ............... COPYING OTHER STUFF ...................................
 copy ThonnyRunner310\x64\Release\thonny.exe %BUILDDIR% /Y
 copy thonny_python.ini %BUILDDIR%
@@ -20,6 +20,11 @@ copy thonny_python.ini %BUILDDIR%
 @echo ............... INSTALLING THONNY ...................................
 %BUILDDIR%\python -s -m pip install --no-warn-script-location --pre --no-cache-dir thonny
 @rem %BUILDDIR%\python -s -m pip install --no-warn-script-location ..\setuptools\thonny-4.0.0b4.dev1-py3-none-any.whl
+
+@echo ............... REPLACE THONNY ...................................
+rmdir %BUILDDIR%\lib\site-packages\thonny /S /Q>NUL
+mkdir %BUILDDIR%\lib\site-packages\thonny
+xcopy ..\..\thonny\* %BUILDDIR%\lib\site-packages\thonny /S /E /K>NUL
 
 @echo ............... CLEANING PYTHON ............................
 @rem move following 3 files to avoid confusion (user may think they're Thonny license etc.)
@@ -61,11 +66,6 @@ rmdir %BUILDDIR%\lib\site-packages\pylint\test /S /Q>NUL
 rmdir %BUILDDIR%\lib\site-packages\mypy\test /S /Q>NUL
 
 
-@echo ............... ADDING LICENSES ...................................
-copy ..\..\LICENSE.txt %BUILDDIR% /Y>NUL
-mkdir %BUILDDIR%\licenses
-xcopy ..\..\licenses\* %BUILDDIR%\licenses /S /E /K>NUL
-
 @echo ............... ADDING OTHER STUFF ...................................
 copy ..\..\CHANGELOG.rst %BUILDDIR% /Y>NUL
 copy ..\..\CREDITS.rst %BUILDDIR% /Y>NUL
@@ -95,6 +95,14 @@ del "%BUILDDIR%\Scripts\*.manifest" /Q>NUL
 
 
 "C:\Program Files (x86)\Inno Setup 6\iscc" /dInstallerPrefix=thonny-xxl /dAppVer=%VERSION% /dSourceFolder=build inno_setup.iss > xxl_installer_building.log
+
+@echo ............... CREATING ZIP ..........................
+SET PATH=%PATH%;C:\Program Files\7-Zip
+copy ..\portable_thonny.ini %BUILDDIR%
+cd %BUILDDIR%
+7z a -tzip ..\dist\thonny-%VERSION%-xxl.zip *
+del portable_thonny.ini
+cd ..
 
 rmdir %BUILDDIR% /S /Q
 pause
